@@ -1,0 +1,11 @@
+Flask
+Flask-RESTful
+Flask-JWT-Extended
+Flask-SQLAlchemy
+Flask-Migrate
+marshmallow
+marshmallow-sqlalchemy
+scikit-learn
+spacy
+python-dotenv
+pytest 
