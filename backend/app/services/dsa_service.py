@@ -9,6 +9,7 @@ class Trie:
     def __init__(self):
         self.root = TrieNode()
     def insert(self, word):
+        word = word.lower()  # Store in lowercase
         node = self.root
         for char in word:
             if char not in node.children:
@@ -16,6 +17,7 @@ class Trie:
             node = node.children[char]
         node.is_end = True
     def autocomplete(self, prefix):
+        prefix = prefix.lower()  # Search in lowercase
         node = self.root
         for char in prefix:
             if char not in node.children:

@@ -16,7 +16,7 @@ trie = Trie()
 def refresh_trie():
     trie.__init__()
     for q in Question.query.all():
-        trie.insert(q.title)
+        trie.insert(q.title.lower())
 
 @questions_bp.route('/', methods=['GET'])
 def get_questions():
@@ -67,7 +67,7 @@ def delete_question(question_id):
 def search_questions():
     prefix = request.args.get('q', '')
     if not prefix:
-        return jsonify({'results': []})
+        return jsonify([])
     titles = trie.autocomplete(prefix)
-    questions = Question.query.filter(Question.title.in_(titles)).all()
+    questions = Question.query.filter(db.func.lower(Question.title).in_([t.lower() for t in titles])).all()
     return jsonify(questions_schema.dump(questions)) 

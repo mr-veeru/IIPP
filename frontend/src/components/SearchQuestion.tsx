@@ -8,16 +8,13 @@ const SearchQuestion: React.FC<{ onSelect: (title: string) => void }> = ({ onSel
 
   const handleInputChange = async (_: any, value: string) => {
     setInput(value);
-    if (value.length < 2) {
-      setOptions([]);
-      return;
-    }
     try {
       const res = await api.get('/questions/search', { params: { q: value } });
       setOptions(res.data.map((q: any) => q.title));
     } catch {
       setOptions([]);
     }
+    onSelect(value);
   };
 
   return (

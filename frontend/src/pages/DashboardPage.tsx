@@ -28,6 +28,10 @@ const DashboardPage: React.FC = () => {
   }, []);
 
   const handleSearch = async (title: string) => {
+    if (!title) {
+      fetchQuestions(); // Show all questions if search is cleared
+      return;
+    }
     setLoading(true);
     setError('');
     try {

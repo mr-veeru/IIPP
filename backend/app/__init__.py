@@ -17,6 +17,11 @@ def create_app():
     from .api import register_blueprints
     register_blueprints(app)
 
+    # Refresh the Trie after app and DB are ready
+    with app.app_context():
+        from .api.questions import refresh_trie
+        refresh_trie()
+
     @app.errorhandler(404)
     def not_found(e):
         return jsonify({'error': 'Not found'}), 404
