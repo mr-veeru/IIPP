@@ -6,16 +6,13 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import CodePlayground from './pages/CodePlayground';
 import RecommendationsPage from './pages/RecommendationsPage';
-import ExplanationAnalysisPage from './pages/ExplanationAnalysisPage';
-import RecruiterDashboard from './pages/RecruiterDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth, AuthProvider } from './contexts/AuthContext';
 import CodeIcon from '@mui/icons-material/Code';
 import PsychologyIcon from '@mui/icons-material/Psychology';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import UserSubmissionsPage from './pages/UserSubmissionsPage';
 
 const AppBarWithAuth: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -26,8 +23,7 @@ const AppBarWithAuth: React.FC = () => {
     { label: 'Dashboard', to: '/dashboard' },
     { label: 'Playground', to: '/playground' },
     { label: 'Recommendations', to: '/recommendations' },
-    { label: 'Analysis', to: '/explanation' },
-    { label: 'Recruiter', to: '/recruiter' },
+    { label: 'My Submissions', to: '/submissions' },
   ];
 
   const isActive = (to: string) => location.pathname.startsWith(to);
@@ -149,12 +145,6 @@ const HomePage: React.FC = () => {
       title: 'AI Recommendations',
       description: 'Get personalized question recommendations based on your performance',
       action: () => navigate('/recommendations')
-    },
-    {
-      icon: <AnalyticsIcon sx={{ fontSize: 40, color: '#1976d2' }} />,
-      title: 'Explanation Analysis',
-      description: 'Deep dive into problem explanations with AI-powered insights',
-      action: () => navigate('/explanation')
     },
     {
       icon: <SchoolIcon sx={{ fontSize: 40, color: '#1976d2' }} />,
@@ -298,18 +288,9 @@ function App() {
               </Container>
             </ProtectedRoute>
           } />
-          <Route path="/explanation" element={
+          <Route path="/submissions" element={
             <ProtectedRoute>
-              <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <ExplanationAnalysisPage />
-              </Container>
-            </ProtectedRoute>
-          } />
-          <Route path="/recruiter" element={
-            <ProtectedRoute>
-              <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <RecruiterDashboard />
-              </Container>
+              <UserSubmissionsPage />
             </ProtectedRoute>
           } />
           <Route path="/" element={<HomePage />} />

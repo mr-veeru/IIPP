@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from marshmallow import ValidationError
-from ..models.question import Question
-from ..extensions import db
-from ..schemas.question_schema import QuestionSchema
-from ..services.dsa_service import Trie
+from .models import Question
+from .schemas import QuestionSchema
+from app.core.extensions import db
+from app.services.dsa_service import Trie
 
 questions_bp = Blueprint('questions', __name__)
 question_schema = QuestionSchema()
@@ -26,14 +26,13 @@ def get_questions():
 @questions_bp.route('/', methods=['POST'])
 @jwt_required()
 def add_question():
-    data = request.get_json()
     try:
-        validated = question_schema.load(data)
+        data = question_schema.load(request.get_json())
     except ValidationError as err:
-        return jsonify({'errors': err.messages}), 400
-    if Question.query.filter_by(title=validated['title']).first():
+        return jsonify({'error': 'Validation failed', 'messages': err.messages}), 422
+    if Question.query.filter_by(title=data['title']).first():
         return jsonify({'error': 'Question already exists'}), 409
-    question = Question(**validated)
+    question = Question(**data)
     db.session.add(question)
     db.session.commit()
     refresh_trie()
@@ -70,4 +69,15 @@ def search_questions():
         return jsonify([])
     titles = trie.autocomplete(prefix)
     questions = Question.query.filter(db.func.lower(Question.title).in_([t.lower() for t in titles])).all()
-    return jsonify(questions_schema.dump(questions)) 
+    return jsonify(questions_schema.dump(questions))
+
+@questions_bp.route('/<int:question_id>', methods=['GET'])
+def get_question(question_id):
+    q = Question.query.get_or_404(question_id)
+    return jsonify({
+        'id': q.id,
+        'title': q.title,
+        'description': q.description,
+        'difficulty': q.difficulty,
+        'tags': q.tags
+    }) 

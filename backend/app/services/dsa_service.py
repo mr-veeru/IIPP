@@ -35,9 +35,25 @@ class Trie:
 class PriorityQueue:
     def __init__(self):
         self.heap = []
-    # TODO: Implement push, pop, peek
+    def push(self, item):
+        import heapq
+        heapq.heappush(self.heap, item)
+    def pop(self):
+        import heapq
+        if self.heap:
+            return heapq.heappop(self.heap)
+        return None
+    def peek(self):
+        if self.heap:
+            return self.heap[0]
+        return None
 
 class Graph:
     def __init__(self):
         self.adj = {}
-    # TODO: Implement add_edge, get_neighbors 
+    def add_edge(self, u, v):
+        if u not in self.adj:
+            self.adj[u] = []
+        self.adj[u].append(v)
+    def get_neighbors(self, u):
+        return self.adj.get(u, []) 
