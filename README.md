@@ -148,9 +148,9 @@ npm run build
 ## 🚀 Deployment
 
 ### Backend Deployment
-1. Use Gunicorn for production WSGI server
+1. Use Gunicorn for a production WSGI server
 2. Set up Nginx reverse proxy
-3. Use PostgreSQL for production database
+3. Use PostgreSQL for the production database
 4. Configure environment variables
 5. Enable HTTPS
 
@@ -158,7 +158,7 @@ npm run build
 1. Build the application: `npm run build`
 2. Deploy to static hosting (Netlify, Vercel, AWS S3)
 3. Configure environment variables
-4. Set up custom domain
+4. Set up a custom domain
 
 ## 🤝 Contributing
 
@@ -167,10 +167,6 @@ npm run build
 3. Follow coding standards
 4. Add tests for new features
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
